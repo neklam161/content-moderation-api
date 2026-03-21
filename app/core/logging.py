@@ -49,4 +49,4 @@ def configure_logging(log_level: str = "INFO", *, json_logs: bool = False) -> No
 
 
 def get_logger(*args: Any, **kwargs: Any) -> structlog.stdlib.BoundLogger:
-    return structlog.get_logger(*args, **kwargs) # type: ignore[no-any-return]
+    return structlog.get_logger(*args, **kwargs)  # type: ignore[no-any-return]

@@ -12,7 +12,7 @@ class DependencyStatus(BaseModel):
 
 class HealthResponse(BaseModel):
     status: str = Field(
-    description="'ok' when healthy, 'degraded' when some deps are unhealthy."
+        description="'ok' when healthy, 'degraded' when some deps are unhealthy."
     )
     version: str = Field(description="Application version string from pyproject.toml")
     environment: str = Field(

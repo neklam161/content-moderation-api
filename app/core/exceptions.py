@@ -63,6 +63,7 @@ def _error_body(error_type: str, message: str, **extra: object) -> dict[str, obj
 
     return {"error": {"type": error_type, "message": message, **extra}}
 
+
 async def injection_error_handler(
     request: Request, exc: InjectionError
 ) -> JSONResponse:

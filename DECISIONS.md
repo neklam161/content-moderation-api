@@ -96,3 +96,41 @@ Allows back-pressure and retry budgets without blocking API threads.
 
 **No response caching** — add a Redis semantic cache to short-circuit
 identical or near-identical moderation requests.
+
+
+## 8. Why async Python matters for this project
+
+So every request to the moderation API makes a network call to the LLM provider. And that involve
+waiting
+This is why with `async/await`, the process can handle other requests while waiting for the LLM response
+to arrive.
+
+## 9. Why scores instead of binary flags from the LLM
+
+The LLM returns a float score (0.0-1.0) per category rather than just
+true/false. This was a deliberate design choice I initially didn't fully
+understand.
+
+Binary flags remove nuance:
+```json
+{"category": "spam", "flagged": true}   // is it 0.71 or 0.99?
+```
+
+Scores preserve it:
+```json
+{"category": "spam", "score": 0.71, "flagged": true}  // borderline
+{"category": "spam", "score": 0.99, "flagged": true}  // definitive
+```
+
+The distinction matters for:
+- Routing borderline cases to human review instead of auto-rejecting
+- Tuning thresholds per category based on production data
+- Explaining decisions to users who appeal a moderation decision
+- Monitoring score distributions over time to detect model drift
+
+The `flagged` field uses `score >= 0.7` as its threshold, but that threshold
+is a starting point. In production, different categories warrant different
+thresholds — toxicity should flag at 0.6 (protect users), off_topic at 0.8
+(very subjective). The architecture separates scoring (LLM) from thresholding
+(business logic) so thresholds can be tuned without touching the model.
+

@@ -11,13 +11,9 @@ class DependencyStatus(BaseModel):
 
 
 class HealthResponse(BaseModel):
-    status: str = Field(
-        description="'ok' when healthy, 'degraded' when some deps are unhealthy."
-    )
+    status: str = Field(description="'ok' when healthy, 'degraded' when some deps are unhealthy.")
     version: str = Field(description="Application version string from pyproject.toml")
-    environment: str = Field(
-        description="Runtime environment (development / production / test)."
-    )
+    environment: str = Field(description="Runtime environment (development / production / test).")
 
     dependencies: list[DependencyStatus] = Field(
         default_factory=list, description="Status of downstream dependencies."

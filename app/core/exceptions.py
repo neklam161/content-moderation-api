@@ -64,9 +64,7 @@ def _error_body(error_type: str, message: str, **extra: object) -> dict[str, obj
     return {"error": {"type": error_type, "message": message, **extra}}
 
 
-async def injection_error_handler(
-    request: Request, exc: InjectionError
-) -> JSONResponse:
+async def injection_error_handler(request: Request, exc: InjectionError) -> JSONResponse:
     return JSONResponse(
         status_code=status.HTTP_400_BAD_REQUEST,
         content=_error_body(
@@ -77,9 +75,7 @@ async def injection_error_handler(
     )
 
 
-async def rate_limit_error_handler(
-    request: Request, exc: RateLimitError
-) -> JSONResponse:
+async def rate_limit_error_handler(request: Request, exc: RateLimitError) -> JSONResponse:
     return JSONResponse(
         status_code=status.HTTP_429_TOO_MANY_REQUESTS,
         content=_error_body("rate_limit_exceeded", exc.message),
@@ -87,9 +83,7 @@ async def rate_limit_error_handler(
     )
 
 
-async def llm_output_error_handler(
-    request: Request, exc: LLMOutputError
-) -> JSONResponse:
+async def llm_output_error_handler(request: Request, exc: LLMOutputError) -> JSONResponse:
     return JSONResponse(
         status_code=status.HTTP_502_BAD_GATEWAY,
         content=_error_body(
@@ -100,9 +94,7 @@ async def llm_output_error_handler(
     )
 
 
-async def llm_timeout_error_handler(
-    request: Request, exc: LLMTimeoutError
-) -> JSONResponse:
+async def llm_timeout_error_handler(request: Request, exc: LLMTimeoutError) -> JSONResponse:
     return JSONResponse(
         status_code=status.HTTP_504_GATEWAY_TIMEOUT,
         content=_error_body("llm_timeout", "The AI model took too long to respond."),

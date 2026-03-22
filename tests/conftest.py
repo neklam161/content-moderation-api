@@ -15,7 +15,7 @@ from app.main import create_app
 def test_settings() -> Settings:
     return Settings(
         llm_provider=LLMProvider.GOOGLE,
-        google_api_key="test-key-not-real",  # type: ignore[arg-type]
+        openai_api_key="test-key-not-real",  # type: ignore[arg-type]
         llm_model="gemini-2.0-flash",
         environment=Environment.TEST,
         rate_limit_rpm=10,

@@ -75,9 +75,7 @@ class Settings(BaseSettings):
     )
     injection_confidence_threshold: Annotated[float, Field(ge=0.0, le=1.0)] = Field(
         default=0.8,
-        description=(
-            "Injection confidence score at or above which the request is rejected."
-        ),
+        description=("Injection confidence score at or above which the request is rejected."),
     )
     log_level: str = Field(
         default="INFO",
@@ -103,9 +101,7 @@ class Settings(BaseSettings):
             self.llm_provider in (LLMProvider.OPENAI, LLMProvider.GOOGLE)
             and not self.openai_api_key
         ):
-            raise ValueError(
-                "OPENAI_API_KEY is required for openai and google providers."
-            )
+            raise ValueError("OPENAI_API_KEY is required for openai and google providers.")
         return self
 
     @property

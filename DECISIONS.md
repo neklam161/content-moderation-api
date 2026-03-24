@@ -134,3 +134,74 @@ thresholds — toxicity should flag at 0.6 (protect users), off_topic at 0.8
 (very subjective). The architecture separates scoring (LLM) from thresholding
 (business logic) so thresholds can be tuned without touching the model.
 
+
+## 10. `max_tokens` is a ceiling, not a spend
+ 
+Setting `llm_max_tokens=1024` does not mean every request costs 1024 tokens.
+The model is billed for tokens it actually generates — if the response is 180
+tokens, you pay for 180 regardless of the cap.
+ 
+The original default of 512 caused a real bug: the 4-category JSON response
+with reason strings can exceed 200 tokens, and the model would hit the cap
+mid-response and stop, producing truncated JSON that failed to parse. Every
+request then exhausted all 3 retries, meaning 4 LLM calls instead of 1 — the
+opposite of cost efficiency.
+ 
+Raising the ceiling to 1024 fixed the truncation so setting `max_tokens` high enough that the model never gets cut off mid-response. The floor matters more than the ceiling.
+
+## 13. How `classify()` connects to the rest of the system
+ 
+`classify()` is a single method on `LLMClient` but it sits at the centre of
+the entire moderation pipeline. Every request passes through it exactly once.
+ 
+```
+POST /moderate
+      │
+      ▼
+ModerationService.moderate()
+      │
+      ├── InjectionDetector.detect()   ← pre-flight: is this a jailbreak attempt?
+      │       if confidence >= 0.8 → raise InjectionError → 400 Bad Request
+      │
+      ├── LLMClient.classify(text)     ← the main event
+      │       sends: system prompt + user text
+      │       returns: raw string (ideally JSON, sometimes broken)
+      │
+      └── OutputValidator.validate()
+              │
+              ├── _parse(raw)          ← try to parse the raw string into a response
+              │       success → return ModerationResponse
+              │
+              └── on failure → LLMClient.correct()   ← retry with full history
+                      returns: better raw string
+                      back to _parse() → success or LLMOutputError → 502
+```
+ 
+`classify()` itself does three things and nothing else:
+ 
+```python
+async def classify(self, text: str) -> str:
+    # 1. Send the system prompt + user text to the LLM
+    response = await self._client.chat.completions.create(
+        messages=[
+            {"role": "system", "content": self._system_prompt},
+            {"role": "user",   "content": text},
+        ]
+    )
+    # 2. Extract the raw string content
+    return response.choices[0].message.content or ""
+    # 3. If the SDK timed out, translate it to our own LLMTimeoutError
+```
+ 
+It doesn't parse. It doesn't validate. It doesn't retry. Those are
+`OutputValidator`'s responsibilities. `classify()` has one job: talk to the
+LLM and hand back whatever it said.
+ 
+This separation matters because it keeps each class testable in isolation.
+`test_llm_client.py` mocks the SDK and only tests the network call.
+`test_output_validator.py` mocks `LLMClient` entirely and only tests parsing
+and retry logic. Neither test needs a real API key or costs anything to run.
+ 
+---
+
+

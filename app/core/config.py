@@ -42,11 +42,11 @@ class Settings(BaseSettings):
         description="Override API base URL. Required for Gemini and local Ollama.",
     )
     llm_model: str = Field(
-        default="gemini-2.0-flash",
+        default="gemini-flash-latest",
         description="Model identifier.",
     )
     llm_max_tokens: Annotated[int, Field(ge=64, le=4096)] = Field(
-        default=512,
+        default=1024,
         description="Max tokens in LLM response.",
     )
     llm_timeout_seconds: Annotated[float, Field(ge=1.0, le=60.0)] = Field(

@@ -10,6 +10,8 @@ from app.api.routes import router
 from app.core.config import Settings, get_settings
 from app.core.exceptions import register_exception_handlers
 from app.core.logging import configure_logging, get_logger
+from app.middleware.rate_limiter import RateLimiterMiddleware
+from app.middleware.request_logger import RequestLoggerMiddleware
 
 log = get_logger(__name__)
 
@@ -62,6 +64,8 @@ def create_app(settings: Settings | None = None) -> FastAPI:
         allow_methods=["GET", "POST"],
         allow_headers=["*"],
     )
+    app.add_middleware(RateLimiterMiddleware, settings=settings)
+    app.add_middleware(RequestLoggerMiddleware)
     app.include_router(router, prefix="/api/v1")
     app.include_router(router, prefix="", include_in_schema=False)
 

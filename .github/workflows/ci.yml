@@ -80,7 +80,7 @@ jobs:
           OPENAI_API_KEY: "test-key-ci-no-real-calls"
           LLM_PROVIDER: "google"
           LLM_BASE_URL: "https://generativelanguage.googleapis.com/v1beta/openai/"
-          LLM_MODEL: "gemini-2.0-flash"
+          LLM_MODEL: "gemini-flash-latest"
           ENVIRONMENT: "test"
           LOG_LEVEL: "WARNING"
 

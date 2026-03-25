@@ -9,7 +9,7 @@ from app.core.config import Environment, LLMProvider, Settings
 def test_settings_valid_google_config() -> None:
     s = Settings(
         llm_provider=LLMProvider.GOOGLE,
-        google_api_key="test-key",  # type: ignore[arg-type]
+        openai_api_key="test-key",  # type: ignore[arg-type]
         environment=Environment.TEST,
     )
     assert s.llm_provider == LLMProvider.GOOGLE
@@ -28,7 +28,7 @@ def test_settings_invalid_log_level_raises() -> None:
     with pytest.raises(ValidationError):
         Settings(
             llm_provider=LLMProvider.GOOGLE,
-            google_api_key="test-key",  # type: ignore[arg-type]
+            openai_api_key="test-key",  # type: ignore[arg-type]
             log_level="VERBOSE",
             environment=Environment.TEST,
         )
@@ -50,7 +50,7 @@ def test_settings_rate_limit_below_minimum_raises() -> None:
     with pytest.raises(ValidationError):
         Settings(
             llm_provider=LLMProvider.GOOGLE,
-            google_api_key="test-key",  # type: ignore[arg-type]
+            openai_api_key="test-key",  # type: ignore[arg-type]
             rate_limit_rpm=0,
             environment=Environment.TEST,
         )
@@ -59,7 +59,7 @@ def test_settings_rate_limit_below_minimum_raises() -> None:
 def test_settings_is_test_property() -> None:
     s = Settings(
         llm_provider=LLMProvider.GOOGLE,
-        google_api_key="test-key",  # type: ignore[arg-type]
+        openai_api_key="test-key",  # type: ignore[arg-type]
         environment=Environment.TEST,
     )
     assert s.is_test is True

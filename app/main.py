@@ -64,7 +64,8 @@ def create_app(settings: Settings | None = None) -> FastAPI:
         allow_methods=["GET", "POST"],
         allow_headers=["*"],
     )
-    app.add_middleware(RateLimiterMiddleware, settings=settings)
+    if not settings.is_test:
+        app.add_middleware(RateLimiterMiddleware, settings=settings)
     app.add_middleware(RequestLoggerMiddleware)
     app.include_router(router, prefix="/api/v1")
     app.include_router(router, prefix="", include_in_schema=False)

@@ -22,6 +22,7 @@ class OutputValidator:
         self,
         raw: str,
         text: str,
+        context: str | None,
         start_time: float,
         injection_detected: bool,
         model_used: str,
@@ -52,6 +53,7 @@ class OutputValidator:
                     original_text=text,
                     bad_output=raw,
                     parse_error=str(exc),
+                    context=context,
                 )
 
         raise LLMOutputError(raw_output=raw, attempts=self._max_retries + 1)

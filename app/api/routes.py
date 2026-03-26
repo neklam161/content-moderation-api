@@ -53,4 +53,4 @@ async def moderate_content(
     request: ModerationRequest,
     service: ModerationService = Depends(get_moderation_service),
 ) -> ModerationResponse:
-    return await service.moderate(request.text)
+    return await service.moderate(request.text, context=request.context)

@@ -23,7 +23,7 @@ class ModerationService:
             max_retries=settings.max_retries,
         )
 
-    async def moderate(self, text: str) -> ModerationResponse:
+    async def moderate(self, text: str, context: str | None = None) -> ModerationResponse:
         start = time.monotonic()
 
         detected, confidence, patterns = self._injection_detector.detect(text)
@@ -36,13 +36,14 @@ class ModerationService:
             )
             raise InjectionError(confidence=confidence, patterns=patterns)
 
-        log.info("moderation_started", text_length=len(text))
+        log.info("moderation_started", text_length=len(text), has_context=context is not None)
 
-        raw = await self._llm_client.classify(text)
+        raw = await self._llm_client.classify(text, context=context)
 
         response = await self._output_validator.validate(
             raw=raw,
             text=text,
+            context=context,
             start_time=start,
             injection_detected=detected,
             model_used=self._settings.llm_model,

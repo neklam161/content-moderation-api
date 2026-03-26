@@ -43,13 +43,27 @@ class LLMClient:
             provider=self._provider,
         )
 
-    async def classify(self, text: str) -> str:
+    async def classify(self, text: str, context: str | None = None) -> str:
+        prompt = self._system_prompt
+        if context:
+            prompt = prompt.replace(
+                "{context}",
+                f"This content was submitted on the following platform: {context}\n"
+                "Use this context when judging relevance for the off_topic category.",
+            )
+        else:
+            prompt = prompt.replace(
+                "{context}",
+                "No specific platform context provided. "
+                "Apply general content moderation standards.",
+            )
+
         try:
             response = await self._client.chat.completions.create(
                 model=self._model,
                 max_tokens=self._max_tokens,
                 messages=[
-                    {"role": "system", "content": self._system_prompt},
+                    {"role": "system", "content": prompt},
                     {"role": "user", "content": text},
                 ],
             )
@@ -65,13 +79,25 @@ class LLMClient:
                 provider=self._provider,
             )
             raise
-
         raw = response.choices[0].message.content or ""
         log.debug("llm_response_received", raw_length=len(raw))
         return raw
 
-    async def correct(self, original_text: str, bad_output: str, parse_error: str) -> str:
-
+    async def correct(
+        self, original_text: str, bad_output: str, parse_error: str, context: str | None = None
+    ) -> str:
+        prompt = self._system_prompt
+        if context:
+            prompt = prompt.replace(
+                "{context}",
+                f"This content was submitted on the following platform: {context}\n"
+                "Use this context when judging relevence for the off_topic category.",
+            )
+        else:
+            prompt = prompt.replace(
+                "{context}",
+                "No specific platform context provided.",
+            )
         try:
             response = await self._client.chat.completions.create(
                 model=self._model,

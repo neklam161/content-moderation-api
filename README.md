@@ -1,4 +1,4 @@
-#  Content Moderation API
+# Content Moderation API
 
 > LLM-powered REST API that classifies user-generated content across toxicity, spam, PII, and off-topic categories — returning typed confidence scores with structured reasons per category.
 
@@ -19,16 +19,16 @@
 
 ## 🏗️ Architecture
 
-|Layer|Technology|Role|
-|---|---|---|
-|API framework|FastAPI 0.115+|Async HTTP, OpenAPI docs, dependency injection|
-|Validation|Pydantic v2 + pydantic-settings|Request/response schemas, typed config, secrets masking|
-|LLM client|OpenAI SDK (async)|Unified interface for Gemini, OpenAI, Ollama|
-|Rate limiting|In-memory token bucket|Per-IP burst control; Redis-ready interface|
-|Logging|structlog|Structured key-value logs, JSON or console renderer|
-|Containerisation|Docker + docker-compose|Multi-stage build, non-root user, resource limits|
-|CI|GitHub Actions|Lint → type check → test with coverage gate|
-|Testing|pytest-asyncio + httpx|Async test client, 80%+ coverage enforced in CI|
+| Layer            | Technology                      | Role                                                    |
+| ---------------- | ------------------------------- | ------------------------------------------------------- |
+| API framework    | FastAPI 0.115+                  | Async HTTP, OpenAPI docs, dependency injection          |
+| Validation       | Pydantic v2 + pydantic-settings | Request/response schemas, typed config, secrets masking |
+| LLM client       | OpenAI SDK (async)              | Unified interface for Gemini, OpenAI, Ollama            |
+| Rate limiting    | In-memory token bucket          | Per-IP burst control; Redis-ready interface             |
+| Logging          | structlog                       | Structured key-value logs, JSON or console renderer     |
+| Containerisation | Docker + docker-compose         | Multi-stage build, non-root user, resource limits       |
+| CI               | GitHub Actions                  | Lint → type check → test with coverage gate             |
+| Testing          | pytest-asyncio + httpx          | Async test client, 80%+ coverage enforced in CI         |
 
 **Request flow:**
 
@@ -61,11 +61,11 @@ Evaluated against **61 hand-labeled examples** spanning easy, hard, and adversar
 
 Run the eval yourself with `python -m eval.script` — failure details saved per model to `eval/eval_failures_<model>.json`.
 
-| Model | Toxicity | Spam | PII | Off-topic | Overall |
-|---|---|---|---|---|---|
-| `deepseek/deepseek-v3.2` | 96.7% (0 FP / 2 FN) | 98.4% (0 FP / 1 FN) | 95.1% (3 FP / 0 FN) | 86.9% (3 FP / 5 FN) | 78.7% |
-| `anthropic/claude-sonnet-4-6` | 98.4% (0 FP / 1 FN) | 96.7% (0 FP / 2 FN) | 98.4% (0 FP / 1 FN) | 91.8% (0 FP / 5 FN) | 83.6% |
-| `openai/gpt-4o-mini` | 100% (0 FP / 0 FN) | 91.8% (4 FP / 1 FN) | 91.8% (5 FP / 0 FN) | 90.2% (1 FP / 5 FN) | 75.4% |
+| Model                         | Toxicity            | Spam                | PII                 | Off-topic           | Overall |
+| ----------------------------- | ------------------- | ------------------- | ------------------- | ------------------- | ------- |
+| `deepseek/deepseek-v3.2`      | 96.7% (0 FP / 2 FN) | 98.4% (0 FP / 1 FN) | 95.1% (3 FP / 0 FN) | 86.9% (3 FP / 5 FN) | 78.7%   |
+| `anthropic/claude-sonnet-4-6` | 98.4% (0 FP / 1 FN) | 96.7% (0 FP / 2 FN) | 98.4% (0 FP / 1 FN) | 91.8% (0 FP / 5 FN) | 83.6%   |
+| `openai/gpt-4o-mini`          | 100% (0 FP / 0 FN)  | 91.8% (4 FP / 1 FN) | 91.8% (5 FP / 0 FN) | 90.2% (1 FP / 5 FN) | 75.4%   |
 
 **Key findings:**
 
@@ -98,6 +98,7 @@ The API is now running at `http://localhost:8000`.
 Interactive docs: `http://localhost:8000/docs`
 
 > **Tier note:** The default config uses Google Gemini (`LLM_PROVIDER=google`, `LLM_MODEL=gemini-flash-latest`)
+
 ---
 
 ### Local Development
@@ -168,10 +169,10 @@ curl -X POST http://localhost:8000/moderate \
 ```json
 {
   "scores": [
-    {"category": "toxicity",  "score": 0.01, "flagged": false, "reason": null},
-    {"category": "spam",      "score": 0.02, "flagged": false, "reason": null},
-    {"category": "pii",       "score": 0.00, "flagged": false, "reason": null},
-    {"category": "off_topic", "score": 0.03, "flagged": false, "reason": null}
+    { "category": "toxicity", "score": 0.01, "flagged": false, "reason": null },
+    { "category": "spam", "score": 0.02, "flagged": false, "reason": null },
+    { "category": "pii", "score": 0.0, "flagged": false, "reason": null },
+    { "category": "off_topic", "score": 0.03, "flagged": false, "reason": null }
   ],
   "overall_flagged": false,
   "injection_detected": false,
@@ -197,10 +198,15 @@ curl -X POST http://localhost:8000/moderate \
 ```json
 {
   "scores": [
-    {"category": "toxicity",  "score": 0.02, "flagged": false, "reason": null},
-    {"category": "spam",      "score": 0.97, "flagged": true,  "reason": "Promotional offer with suspicious URL and urgency tactics."},
-    {"category": "pii",       "score": 0.01, "flagged": false, "reason": null},
-    {"category": "off_topic", "score": 0.15, "flagged": false, "reason": null}
+    { "category": "toxicity", "score": 0.02, "flagged": false, "reason": null },
+    {
+      "category": "spam",
+      "score": 0.97,
+      "flagged": true,
+      "reason": "Promotional offer with suspicious URL and urgency tactics."
+    },
+    { "category": "pii", "score": 0.01, "flagged": false, "reason": null },
+    { "category": "off_topic", "score": 0.15, "flagged": false, "reason": null }
   ],
   "overall_flagged": true,
   "injection_detected": false,
@@ -253,13 +259,13 @@ async def moderate(text: str, context: str | None = None) -> dict:
 
 ### Error responses
 
-|Status|Type|When|
-|---|---|---|
-|`400`|`injection_detected`|Input matched prompt injection patterns above threshold|
-|`422`|Validation error|Empty text, text > 10,000 chars, missing required fields|
-|`429`|`rate_limit_exceeded`|Exceeded per-IP RPM or burst limit; check `Retry-After` header|
-|`502`|`llm_output_error`|LLM returned unparseable output after all retries|
-|`504`|`llm_timeout`|LLM API call exceeded `LLM_TIMEOUT_SECONDS`|
+| Status | Type                  | When                                                           |
+| ------ | --------------------- | -------------------------------------------------------------- |
+| `400`  | `injection_detected`  | Input matched prompt injection patterns above threshold        |
+| `422`  | Validation error      | Empty text, text > 10,000 chars, missing required fields       |
+| `429`  | `rate_limit_exceeded` | Exceeded per-IP RPM or burst limit; check `Retry-After` header |
+| `502`  | `llm_output_error`    | LLM returned unparseable output after all retries              |
+| `504`  | `llm_timeout`         | LLM API call exceeded `LLM_TIMEOUT_SECONDS`                    |
 
 ---
 
@@ -267,22 +273,22 @@ async def moderate(text: str, context: str | None = None) -> dict:
 
 All settings are validated at startup via Pydantic. The process will refuse to start on invalid config rather than fail at runtime.
 
-|Variable|Default|Description|
-|---|---|---|
-|`LLM_PROVIDER`|`google`|`google`, `openai`, or `ollama`|
-|`OPENAI_API_KEY`|—|Required for `google` and `openai` providers|
-|`LLM_BASE_URL`|auto|Override API base URL (auto-set for Gemini and Ollama)|
-|`LLM_MODEL`|`gemini-flash-latest`|Model identifier passed to the provider|
-|`LLM_MAX_TOKENS`|`1024`|Response token ceiling (must be high enough to avoid truncated JSON)|
-|`LLM_TIMEOUT_SECONDS`|`10.0`|Per-request HTTP timeout|
-|`MAX_RETRIES`|`2`|Retries when LLM output fails to parse|
-|`RATE_LIMIT_RPM`|`60`|Max requests per minute per IP|
-|`RATE_LIMIT_BURST`|`10`|Token bucket burst capacity|
-|`INJECTION_CONFIDENCE_THRESHOLD`|`0.8`|Minimum confidence to reject as injection|
-|`MAX_INPUT_CHARS`|`10000`|Hard cap on request text length|
-|`ENVIRONMENT`|`development`|`development`, `production`, or `test`|
-|`LOG_LEVEL`|`INFO`|`DEBUG`, `INFO`, `WARNING`, `ERROR`, `CRITICAL`|
-|`LOG_JSON`|`false`|`true` for JSON logs (production), `false` for coloured console|
+| Variable                         | Default               | Description                                                          |
+| -------------------------------- | --------------------- | -------------------------------------------------------------------- |
+| `LLM_PROVIDER`                   | `google`              | `google`, `openai`, or `ollama`                                      |
+| `OPENAI_API_KEY`                 | —                     | Required for `google` and `openai` providers                         |
+| `LLM_BASE_URL`                   | auto                  | Override API base URL (auto-set for Gemini and Ollama)               |
+| `LLM_MODEL`                      | `gemini-flash-latest` | Model identifier passed to the provider                              |
+| `LLM_MAX_TOKENS`                 | `1024`                | Response token ceiling (must be high enough to avoid truncated JSON) |
+| `LLM_TIMEOUT_SECONDS`            | `10.0`                | Per-request HTTP timeout                                             |
+| `MAX_RETRIES`                    | `2`                   | Retries when LLM output fails to parse                               |
+| `RATE_LIMIT_RPM`                 | `60`                  | Max requests per minute per IP                                       |
+| `RATE_LIMIT_BURST`               | `10`                  | Token bucket burst capacity                                          |
+| `INJECTION_CONFIDENCE_THRESHOLD` | `0.8`                 | Minimum confidence to reject as injection                            |
+| `MAX_INPUT_CHARS`                | `10000`               | Hard cap on request text length                                      |
+| `ENVIRONMENT`                    | `development`         | `development`, `production`, or `test`                               |
+| `LOG_LEVEL`                      | `INFO`                | `DEBUG`, `INFO`, `WARNING`, `ERROR`, `CRITICAL`                      |
+| `LOG_JSON`                       | `false`               | `true` for JSON logs (production), `false` for coloured console      |
 
 **Switch to OpenAI:**
 
@@ -333,6 +339,13 @@ content-moderation-api/
 │   │
 │   └── main.py                   # App factory (create_app), lifespan, middleware stack
 │
+├── eval/
+│   ├── dataset.jsonl             # 61 hand-labeled examples (easy / hard / adversarial)
+│   ├── script.py                 # Eval runner — per-category accuracy, FP/FN, retry logic
+│   ├── eval_failures_deepseek_deepseek-v3.2.json
+│   ├── eval_failures_anthropic_claude-sonnet-4.6.json
+│   └── eval_failures_openai_gpt-4o-mini.json
+│
 ├── prompts/
 │   └── moderation_v1.txt         # System prompt — versioned, editable without code changes
 │
@@ -342,6 +355,7 @@ content-moderation-api/
 │   ├── test_exception.py         # Exception field coverage
 │   ├── test_health.py            # Health endpoint contract
 │   ├── test_llm_client.py        # classify() / correct() with mocked SDK
+│   ├── test_logging.py           # structlog renderer and config tests
 │   ├── test_middleware.py        # Rate limiter + request logger integration
 │   ├── test_moderation.py        # Full moderation endpoint contract
 │   ├── test_output_validator.py  # Parse, retry, and error exhaustion logic
@@ -352,6 +366,7 @@ content-moderation-api/
 ├── docker-compose.yml            # Single-command local deployment
 ├── Dockerfile                    # Multi-stage build, non-root runtime user
 ├── pyproject.toml                # Dependencies, ruff, mypy, pytest config
+├── check.sh                      # Local quality check script (lint, format, type, test)
 └── DECISIONS.md                  # Architectural decision record
 ```
 

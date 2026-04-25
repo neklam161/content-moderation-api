@@ -29,7 +29,7 @@ class LLMClient:
             case LLMProvider.OLLAMA:
                 base_url = "http://localhost:11434/v1"
             case LLMProvider.OPENAI:
-                base_url = None
+                base_url = settings.llm_base_url
 
         self._client = AsyncOpenAI(
             api_key=settings.active_api_key.get_secret_value(),

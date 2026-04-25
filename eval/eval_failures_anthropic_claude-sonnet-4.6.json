@@ -1,0 +1,257 @@
+[
+  {
+    "id": "tox_h_03",
+    "text": "I hate myself right now. I'm such an idiot for falling for this again. What is wrong with me.",
+    "difficulty": "hard",
+    "intended_category": "toxicity",
+    "category_mismatches": {},
+    "overall_expected": true,
+    "overall_got": false,
+    "scores": {
+      "toxicity": 0.18,
+      "spam": 0.01,
+      "pii": 0.0,
+      "off_topic": 0.05
+    },
+    "label_scores": {
+      "toxicity": 0.6,
+      "spam": 0.01,
+      "pii": 0.01,
+      "off_topic": 0.01
+    }
+  },
+  {
+    "id": "tox_h_05",
+    "text": "Your argument is total garbage and anyone who agrees with it needs to actually read a book for once.",
+    "difficulty": "hard",
+    "intended_category": "toxicity",
+    "category_mismatches": {
+      "toxicity": {
+        "expected": true,
+        "got": false
+      }
+    },
+    "overall_expected": true,
+    "overall_got": false,
+    "scores": {
+      "toxicity": 0.62,
+      "spam": 0.01,
+      "pii": 0.0,
+      "off_topic": 0.05
+    },
+    "label_scores": {
+      "toxicity": 0.9,
+      "spam": 0.01,
+      "pii": 0.01,
+      "off_topic": 0.01
+    }
+  },
+  {
+    "id": "spam_h_02",
+    "text": "OMG you guys NEED to try this skincare routine!! Day 30 and my skin is literally glowing \u2728\u2728 full list in my bio xoxo",
+    "difficulty": "hard",
+    "intended_category": "spam",
+    "category_mismatches": {
+      "spam": {
+        "expected": true,
+        "got": false
+      }
+    },
+    "overall_expected": true,
+    "overall_got": false,
+    "scores": {
+      "toxicity": 0.01,
+      "spam": 0.55,
+      "pii": 0.0,
+      "off_topic": 0.1
+    },
+    "label_scores": {
+      "toxicity": 0.01,
+      "spam": 0.9,
+      "pii": 0.01,
+      "off_topic": 0.01
+    }
+  },
+  {
+    "id": "spam_h_04",
+    "text": "GUYS this book changed my life. Like genuinely. Everyone I've recommended it to said the same thing. Reading it again this weekend.",
+    "difficulty": "hard",
+    "intended_category": "spam",
+    "category_mismatches": {
+      "spam": {
+        "expected": true,
+        "got": false
+      }
+    },
+    "overall_expected": true,
+    "overall_got": false,
+    "scores": {
+      "toxicity": 0.01,
+      "spam": 0.08,
+      "pii": 0.0,
+      "off_topic": 0.05
+    },
+    "label_scores": {
+      "toxicity": 0.01,
+      "spam": 0.8,
+      "pii": 0.01,
+      "off_topic": 0.01
+    }
+  },
+  {
+    "id": "pii_h_04",
+    "text": "My daughter Emma is starting kindergarten at Lincoln Elementary next fall \u2014 she's so excited about it.",
+    "difficulty": "hard",
+    "intended_category": "pii",
+    "category_mismatches": {
+      "pii": {
+        "expected": true,
+        "got": false
+      }
+    },
+    "overall_expected": true,
+    "overall_got": false,
+    "scores": {
+      "toxicity": 0.01,
+      "spam": 0.01,
+      "pii": 0.35,
+      "off_topic": 0.1
+    },
+    "label_scores": {
+      "toxicity": 0.01,
+      "spam": 0.01,
+      "pii": 0.8,
+      "off_topic": 0.01
+    }
+  },
+  {
+    "id": "ot_e_01",
+    "text": "Anyone else think the Yankees are making the playoffs this year? My money's on them going all the way.",
+    "difficulty": "easy",
+    "intended_category": "off_topic",
+    "category_mismatches": {
+      "off_topic": {
+        "expected": true,
+        "got": false
+      }
+    },
+    "overall_expected": true,
+    "overall_got": false,
+    "scores": {
+      "toxicity": 0.01,
+      "spam": 0.02,
+      "pii": 0.0,
+      "off_topic": 0.08
+    },
+    "label_scores": {
+      "toxicity": 0.01,
+      "spam": 0.01,
+      "pii": 0.01,
+      "off_topic": 0.9
+    }
+  },
+  {
+    "id": "ot_e_02",
+    "text": "I'm voting for candidate X in the midterms because we need real change in this country. Who else is fired up?",
+    "difficulty": "easy",
+    "intended_category": "off_topic",
+    "category_mismatches": {
+      "off_topic": {
+        "expected": true,
+        "got": false
+      }
+    },
+    "overall_expected": true,
+    "overall_got": false,
+    "scores": {
+      "toxicity": 0.05,
+      "spam": 0.03,
+      "pii": 0.0,
+      "off_topic": 0.05
+    },
+    "label_scores": {
+      "toxicity": 0.01,
+      "spam": 0.01,
+      "pii": 0.01,
+      "off_topic": 0.9
+    }
+  },
+  {
+    "id": "ot_e_03",
+    "text": "What's everyone doing for Thanksgiving? I'm trying a new stuffing recipe this year \u2014 fingers crossed.",
+    "difficulty": "easy",
+    "intended_category": "off_topic",
+    "category_mismatches": {
+      "off_topic": {
+        "expected": true,
+        "got": false
+      }
+    },
+    "overall_expected": true,
+    "overall_got": false,
+    "scores": {
+      "toxicity": 0.01,
+      "spam": 0.01,
+      "pii": 0.0,
+      "off_topic": 0.08
+    },
+    "label_scores": {
+      "toxicity": 0.01,
+      "spam": 0.01,
+      "pii": 0.01,
+      "off_topic": 0.9
+    }
+  },
+  {
+    "id": "ot_e_04",
+    "text": "Check out my band's new single on Spotify \u2014 link in comments! Would mean a lot if you gave it a listen.",
+    "difficulty": "easy",
+    "intended_category": "off_topic",
+    "category_mismatches": {
+      "off_topic": {
+        "expected": true,
+        "got": false
+      }
+    },
+    "overall_expected": true,
+    "overall_got": false,
+    "scores": {
+      "toxicity": 0.01,
+      "spam": 0.45,
+      "pii": 0.01,
+      "off_topic": 0.15
+    },
+    "label_scores": {
+      "toxicity": 0.01,
+      "spam": 0.6,
+      "pii": 0.01,
+      "off_topic": 0.7
+    }
+  },
+  {
+    "id": "ot_h_03",
+    "text": "Not about this specific product but has anyone had luck reaching this brand's customer service lately?",
+    "difficulty": "hard",
+    "intended_category": "off_topic",
+    "category_mismatches": {
+      "off_topic": {
+        "expected": true,
+        "got": false
+      }
+    },
+    "overall_expected": true,
+    "overall_got": false,
+    "scores": {
+      "toxicity": 0.01,
+      "spam": 0.02,
+      "pii": 0.0,
+      "off_topic": 0.18
+    },
+    "label_scores": {
+      "toxicity": 0.01,
+      "spam": 0.01,
+      "pii": 0.01,
+      "off_topic": 0.8
+    }
+  }
+]

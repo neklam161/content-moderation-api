@@ -1,6 +1,6 @@
 #  Content Moderation API
 
-> LLM-powered REST API that classifies user-generated content across toxicity, spam, PII, and off-topic categories — returning typed confidence scores in under 2 seconds.
+> LLM-powered REST API that classifies user-generated content across toxicity, spam, PII, and off-topic categories — returning typed confidence scores with structured reasons per category.
 
 ![Python](https://img.shields.io/badge/python-3.12-blue?logo=python&logoColor=white) ![FastAPI](https://img.shields.io/badge/FastAPI-0.115+-009688?logo=fastapi&logoColor=white) ![Docker](https://img.shields.io/badge/docker-ready-2496ED?logo=docker&logoColor=white) ![CI](https://img.shields.io/github/actions/workflow/status/neklam161/content-moderation-api/ci.yml?branch=main&label=CI&logo=github-actions&logoColor=white) ![Coverage](https://img.shields.io/badge/coverage-80%25+-brightgreen)
 
@@ -50,6 +50,30 @@ OutputValidator.validate()     ← parses JSON, retries via LLMClient.correct() 
       ▼
 ModerationResponse             ← scores, flags, reasons, timing, model used
 ```
+
+---
+
+## 📊 Model Benchmarks
+
+Evaluated against **61 hand-labeled examples** spanning easy, hard, and adversarial difficulty tiers across all four categories. Each example was labeled with a ground-truth float score per category; examples where the label score meets the 0.7 flagging threshold are expected to be flagged.
+
+**What the percentages mean:** per-category accuracy is the percentage of examples where the model's binary flagged/not-flagged decision matched the human label. **Overall** is the accuracy of the `overall_flagged` field — `true` if any category is flagged. Because `overall_flagged` is derived from all four categories, a single wrong category decision causes an overall miss, so the overall number is always lower than any individual category and errors compound across categories.
+
+Run the eval yourself with `python -m eval.script` — failure details saved per model to `eval/eval_failures_<model>.json`.
+
+| Model | Toxicity | Spam | PII | Off-topic | Overall |
+|---|---|---|---|---|---|
+| `deepseek/deepseek-v3.2` | 96.7% (0 FP / 2 FN) | 98.4% (0 FP / 1 FN) | 95.1% (3 FP / 0 FN) | 86.9% (3 FP / 5 FN) | 78.7% |
+| `anthropic/claude-sonnet-4-6` | 98.4% (0 FP / 1 FN) | 96.7% (0 FP / 2 FN) | 98.4% (0 FP / 1 FN) | 91.8% (0 FP / 5 FN) | 83.6% |
+| `openai/gpt-4o-mini` | 100% (0 FP / 0 FN) | 91.8% (4 FP / 1 FN) | 91.8% (5 FP / 0 FN) | 90.2% (1 FP / 5 FN) | 75.4% |
+
+**Key findings:**
+
+- **Off-topic is consistently the weakest category** across all models — all false negatives, meaning the model under-flags rather than over-flags. This is expected: the eval passes no `context` field, so the model has no platform signal to judge relevance against.
+- **Claude Sonnet 4.6** has the best overall score (83.6%) and zero false positives across toxicity, spam, and PII — it only misses by failing to flag borderline cases, not by over-flagging clean content.
+- **DeepSeek V3.2** is the best value — nearly matches Claude on toxicity and spam with zero false positives on both, at ~$0.01 per full eval run vs ~$0.33 for Claude.
+- **GPT-4o-mini** achieves perfect toxicity recall but has the highest false positive rate on PII (5 FP) — it flags fictional PII in novels, public addresses, and order reference numbers as real private data.
+- **Shared failure pattern** — all three models score self-directed language ("I hate myself right now") below the 0.7 toxicity threshold. This disagrees with the dataset label and is a genuine labeling ambiguity: the text describes distress, not an attack on another person.
 
 ---
 

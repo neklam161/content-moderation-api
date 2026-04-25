@@ -97,7 +97,6 @@ Allows back-pressure and retry budgets without blocking API threads.
 **No response caching** — add a Redis semantic cache to short-circuit
 identical or near-identical moderation requests.
 
-
 ## 8. Why async Python matters for this project
 
 So every request to the moderation API makes a network call to the LLM provider. And that involve
@@ -112,17 +111,20 @@ true/false. This was a deliberate design choice I initially didn't fully
 understand.
 
 Binary flags remove nuance:
+
 ```json
-{"category": "spam", "flagged": true}   // is it 0.71 or 0.99?
+{ "category": "spam", "flagged": true } // is it 0.71 or 0.99?
 ```
 
 Scores preserve it:
+
 ```json
 {"category": "spam", "score": 0.71, "flagged": true}  // borderline
 {"category": "spam", "score": 0.99, "flagged": true}  // definitive
 ```
 
 The distinction matters for:
+
 - Routing borderline cases to human review instead of auto-rejecting
 - Tuning thresholds per category based on production data
 - Explaining decisions to users who appeal a moderation decision
@@ -134,26 +136,25 @@ thresholds — toxicity should flag at 0.6 (protect users), off_topic at 0.8
 (very subjective). The architecture separates scoring (LLM) from thresholding
 (business logic) so thresholds can be tuned without touching the model.
 
-
 ## 10. `max_tokens` is a ceiling, not a spend
- 
+
 Setting `llm_max_tokens=1024` does not mean every request costs 1024 tokens.
 The model is billed for tokens it actually generates — if the response is 180
 tokens, you pay for 180 regardless of the cap.
- 
+
 The original default of 512 caused a real bug: the 4-category JSON response
 with reason strings can exceed 200 tokens, and the model would hit the cap
 mid-response and stop, producing truncated JSON that failed to parse. Every
 request then exhausted all 3 retries, meaning 4 LLM calls instead of 1 — the
 opposite of cost efficiency.
- 
+
 Raising the ceiling to 1024 fixed the truncation so setting `max_tokens` high enough that the model never gets cut off mid-response. The floor matters more than the ceiling.
 
 ## 13. How `classify()` connects to the rest of the system
- 
+
 `classify()` is a single method on `LLMClient` but it sits at the centre of
 the entire moderation pipeline. Every request passes through it exactly once.
- 
+
 ```
 POST /moderate
       │
@@ -176,9 +177,9 @@ ModerationService.moderate()
                       returns: better raw string
                       back to _parse() → success or LLMOutputError → 502
 ```
- 
+
 `classify()` itself does three things and nothing else:
- 
+
 ```python
 async def classify(self, text: str) -> str:
     # 1. Send the system prompt + user text to the LLM
@@ -192,16 +193,103 @@ async def classify(self, text: str) -> str:
     return response.choices[0].message.content or ""
     # 3. If the SDK timed out, translate it to our own LLMTimeoutError
 ```
- 
+
 It doesn't parse. It doesn't validate. It doesn't retry. Those are
 `OutputValidator`'s responsibilities. `classify()` has one job: talk to the
 LLM and hand back whatever it said.
- 
+
 This separation matters because it keeps each class testable in isolation.
 `test_llm_client.py` mocks the SDK and only tests the network call.
 `test_output_validator.py` mocks `LLMClient` entirely and only tests parsing
 and retry logic. Neither test needs a real API key or costs anything to run.
- 
+
 ---
 
+## 14. Why an eval suite and how it evolved
 
+**The motivation**
+
+Unit tests verify that the code runs correctly — they don't verify that the
+LLM actually classifies content well. A model can pass all tests and still
+produce poor moderation decisions. An eval suite bridges that gap: it runs the
+real moderation pipeline against labeled examples and measures classification
+accuracy against ground truth.
+
+The eval also makes model swapping safe. Switching from Gemini to DeepSeek to
+Claude is an env var change, but without an eval you have no way of knowing
+whether the new model is better or worse on the categories that matter.
+
+**How the eval was built**
+
+Started with a `dataset.jsonl` of 61 labeled examples across 4 categories
+(toxicity, spam, PII, off-topic), each with a difficulty tier:
+
+- `easy` — clear-cut cases the model should never miss
+- `hard` — borderline cases requiring judgment
+- `adversarial` — edge cases designed to cause false positives (fictional PII,
+  quoting spam to warn about it, slang that sounds toxic but isn't)
+
+`eval/script.py` runs each example through the live `ModerationService`,
+compares binary flags against expected flags derived from label scores, and
+reports per-category accuracy, false positives, and false negatives.
+
+**Threshold alignment bug**
+
+The initial eval used `THRESHOLD = 0.5` to compute expected flags from label
+scores, but the moderation service flags at `>= 0.7`. This meant the eval
+reported false mismatches on borderline cases — a label score of 0.6 was
+expected to be flagged by the eval but not by the service. Fixed by aligning
+both to `0.7`.
+
+**Free model limitations**
+
+Early runs used `openrouter/free` (a rotating free-tier model on OpenRouter).
+This turned out to be unreliable in practice:
+
+- Frequent `503` errors ("no healthy upstream") from overloaded providers
+- Intermittent `429` rate limits even at low request volume
+- No consistency guarantee — the underlying model can change without notice
+
+The retry logic in `script.py` originally only handled 429s. Extended it to
+also retry on 503s with a 30-second back-off. Even so, free-tier models are
+not suitable for benchmarking — results are noisy because failures get skipped
+rather than retried to completion.
+
+This also applies to most of these free models, they are mostly because of rate limits.
+
+**Model selection rationale**
+
+For meaningful benchmarks, paid models with stable uptime are necessary.
+Current and planned evaluations:
+
+| Model                              | Rationale                                                        |
+| ---------------------------------- | ---------------------------------------------------------------- |
+| `deepseek/deepseek-v3`             | Strong baseline, very cheap (~$0.01/eval run), good reasoning    |
+| `anthropic/claude-sonnet-4.6`      | High quality bar, well-known safety tuning, good reference point |
+| `openai/gpt-4o-mini` or equivalent | Cost-effective OpenAI option for a three-way comparison          |
+
+The failure files are named per-model (`eval_failures_{model}.json`) so
+results from different runs don't overwrite each other and can be compared
+side by side.
+
+---
+
+## 15. Labeling philosophy for ambiguous cases
+
+Some examples in the eval dataset have no objectively correct label. Self-directed
+language ("I hate myself right now") contains toxic vocabulary but no external
+target. The dataset labels these conservatively (flagged), but all three
+evaluated models score them below threshold — suggesting the label reflects one
+valid interpretation, not ground truth.
+
+Rather than adjusting labels to match model output, these cases are documented
+as labeling ambiguities in the README. Chasing model output with label changes
+would make the eval a measure of consistency rather than accuracy, and would
+erase the signal these edge cases carry.
+
+In production, these decisions would be driven by the platform's moderation
+policy, not the model's default behavior. A mental health platform might flag
+self-directed distress at a lower threshold than a gaming chat platform. The
+architecture already supports this — the `INJECTION_CONFIDENCE_THRESHOLD` and
+score thresholds are config, not code, so per-platform policies can be applied
+without touching the model or the prompt.

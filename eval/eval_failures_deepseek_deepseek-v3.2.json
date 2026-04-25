@@ -1,0 +1,361 @@
+[
+  {
+    "id": "tox_h_02",
+    "text": "lol you are literally the worst teammate I've ever been matched with. Please uninstall the game.",
+    "difficulty": "hard",
+    "intended_category": "toxicity",
+    "category_mismatches": {
+      "toxicity": {
+        "expected": true,
+        "got": false
+      }
+    },
+    "overall_expected": true,
+    "overall_got": false,
+    "scores": {
+      "toxicity": 0.62,
+      "spam": 0.03,
+      "pii": 0.0,
+      "off_topic": 0.12
+    },
+    "label_scores": {
+      "toxicity": 0.7,
+      "spam": 0.01,
+      "pii": 0.01,
+      "off_topic": 0.01
+    }
+  },
+  {
+    "id": "tox_h_03",
+    "text": "I hate myself right now. I'm such an idiot for falling for this again. What is wrong with me.",
+    "difficulty": "hard",
+    "intended_category": "toxicity",
+    "category_mismatches": {},
+    "overall_expected": true,
+    "overall_got": false,
+    "scores": {
+      "toxicity": 0.65,
+      "spam": 0.0,
+      "pii": 0.0,
+      "off_topic": 0.1
+    },
+    "label_scores": {
+      "toxicity": 0.6,
+      "spam": 0.01,
+      "pii": 0.01,
+      "off_topic": 0.01
+    }
+  },
+  {
+    "id": "tox_h_04",
+    "text": "Oh wow, what a GENIUS suggestion. I'm SURE nobody has EVER thought of that before. Truly groundbreaking. /s",
+    "difficulty": "hard",
+    "intended_category": "toxicity",
+    "category_mismatches": {
+      "toxicity": {
+        "expected": false,
+        "got": true
+      }
+    },
+    "overall_expected": false,
+    "overall_got": true,
+    "scores": {
+      "toxicity": 0.75,
+      "spam": 0.05,
+      "pii": 0.0,
+      "off_topic": 0.1
+    },
+    "label_scores": {
+      "toxicity": 0.5,
+      "spam": 0.01,
+      "pii": 0.01,
+      "off_topic": 0.01
+    }
+  },
+  {
+    "id": "tox_h_05",
+    "text": "Your argument is total garbage and anyone who agrees with it needs to actually read a book for once.",
+    "difficulty": "hard",
+    "intended_category": "toxicity",
+    "category_mismatches": {
+      "toxicity": {
+        "expected": true,
+        "got": false
+      }
+    },
+    "overall_expected": true,
+    "overall_got": false,
+    "scores": {
+      "toxicity": 0.6,
+      "spam": 0.0,
+      "pii": 0.0,
+      "off_topic": 0.0
+    },
+    "label_scores": {
+      "toxicity": 0.9,
+      "spam": 0.01,
+      "pii": 0.01,
+      "off_topic": 0.01
+    }
+  },
+  {
+    "id": "spam_e_04",
+    "text": "Dear Beloved, I am contacting you regarding $4.5 million USD that needs to be transferred out of my country. I require your bank details and a small processing fee to proceed. May God bless you.",
+    "difficulty": "easy",
+    "intended_category": "spam",
+    "category_mismatches": {
+      "off_topic": {
+        "expected": false,
+        "got": true
+      }
+    },
+    "overall_expected": true,
+    "overall_got": true,
+    "scores": {
+      "toxicity": 0.1,
+      "spam": 0.98,
+      "pii": 0.0,
+      "off_topic": 0.85
+    },
+    "label_scores": {
+      "toxicity": 0.01,
+      "spam": 0.9,
+      "pii": 0.01,
+      "off_topic": 0.01
+    }
+  },
+  {
+    "id": "spam_h_04",
+    "text": "GUYS this book changed my life. Like genuinely. Everyone I've recommended it to said the same thing. Reading it again this weekend.",
+    "difficulty": "hard",
+    "intended_category": "spam",
+    "category_mismatches": {
+      "spam": {
+        "expected": true,
+        "got": false
+      }
+    },
+    "overall_expected": true,
+    "overall_got": false,
+    "scores": {
+      "toxicity": 0.0,
+      "spam": 0.1,
+      "pii": 0.0,
+      "off_topic": 0.1
+    },
+    "label_scores": {
+      "toxicity": 0.01,
+      "spam": 0.8,
+      "pii": 0.01,
+      "off_topic": 0.01
+    }
+  },
+  {
+    "id": "pii_h_02",
+    "text": "DM me your email and I'll send the address over \u2014 don't want to post it in the public thread.",
+    "difficulty": "hard",
+    "intended_category": "pii",
+    "category_mismatches": {
+      "pii": {
+        "expected": false,
+        "got": true
+      }
+    },
+    "overall_expected": false,
+    "overall_got": true,
+    "scores": {
+      "toxicity": 0.0,
+      "spam": 0.0,
+      "pii": 0.85,
+      "off_topic": 0.0
+    },
+    "label_scores": {
+      "toxicity": 0.01,
+      "spam": 0.01,
+      "pii": 0.01,
+      "off_topic": 0.01
+    }
+  },
+  {
+    "id": "pii_h_04",
+    "text": "My daughter Emma is starting kindergarten at Lincoln Elementary next fall \u2014 she's so excited about it.",
+    "difficulty": "hard",
+    "intended_category": "pii",
+    "category_mismatches": {
+      "pii": {
+        "expected": true,
+        "got": false
+      }
+    },
+    "overall_expected": true,
+    "overall_got": false,
+    "scores": {
+      "toxicity": 0.0,
+      "spam": 0.0,
+      "pii": 0.65,
+      "off_topic": 0.1
+    },
+    "label_scores": {
+      "toxicity": 0.01,
+      "spam": 0.01,
+      "pii": 0.8,
+      "off_topic": 0.01
+    }
+  },
+  {
+    "id": "pii_a_01",
+    "text": "The order reference number is 732-55-4891 \u2014 please include it when you email support.",
+    "difficulty": "adversarial",
+    "intended_category": "pii",
+    "category_mismatches": {
+      "pii": {
+        "expected": false,
+        "got": true
+      }
+    },
+    "overall_expected": false,
+    "overall_got": true,
+    "scores": {
+      "toxicity": 0.0,
+      "spam": 0.12,
+      "pii": 0.83,
+      "off_topic": 0.08
+    },
+    "label_scores": {
+      "toxicity": 0.01,
+      "spam": 0.03,
+      "pii": 0.01,
+      "off_topic": 0.01
+    }
+  },
+  {
+    "id": "ot_e_01",
+    "text": "Anyone else think the Yankees are making the playoffs this year? My money's on them going all the way.",
+    "difficulty": "easy",
+    "intended_category": "off_topic",
+    "category_mismatches": {
+      "off_topic": {
+        "expected": true,
+        "got": false
+      }
+    },
+    "overall_expected": true,
+    "overall_got": false,
+    "scores": {
+      "toxicity": 0.0,
+      "spam": 0.0,
+      "pii": 0.0,
+      "off_topic": 0.15
+    },
+    "label_scores": {
+      "toxicity": 0.01,
+      "spam": 0.01,
+      "pii": 0.01,
+      "off_topic": 0.9
+    }
+  },
+  {
+    "id": "ot_e_02",
+    "text": "I'm voting for candidate X in the midterms because we need real change in this country. Who else is fired up?",
+    "difficulty": "easy",
+    "intended_category": "off_topic",
+    "category_mismatches": {
+      "off_topic": {
+        "expected": true,
+        "got": false
+      }
+    },
+    "overall_expected": true,
+    "overall_got": false,
+    "scores": {
+      "toxicity": 0.0,
+      "spam": 0.0,
+      "pii": 0.0,
+      "off_topic": 0.15
+    },
+    "label_scores": {
+      "toxicity": 0.01,
+      "spam": 0.01,
+      "pii": 0.01,
+      "off_topic": 0.9
+    }
+  },
+  {
+    "id": "ot_e_03",
+    "text": "What's everyone doing for Thanksgiving? I'm trying a new stuffing recipe this year \u2014 fingers crossed.",
+    "difficulty": "easy",
+    "intended_category": "off_topic",
+    "category_mismatches": {
+      "off_topic": {
+        "expected": true,
+        "got": false
+      }
+    },
+    "overall_expected": true,
+    "overall_got": false,
+    "scores": {
+      "toxicity": 0.0,
+      "spam": 0.0,
+      "pii": 0.0,
+      "off_topic": 0.0
+    },
+    "label_scores": {
+      "toxicity": 0.01,
+      "spam": 0.01,
+      "pii": 0.01,
+      "off_topic": 0.9
+    }
+  },
+  {
+    "id": "ot_e_04",
+    "text": "Check out my band's new single on Spotify \u2014 link in comments! Would mean a lot if you gave it a listen.",
+    "difficulty": "easy",
+    "intended_category": "off_topic",
+    "category_mismatches": {
+      "off_topic": {
+        "expected": true,
+        "got": false
+      }
+    },
+    "overall_expected": true,
+    "overall_got": false,
+    "scores": {
+      "toxicity": 0.0,
+      "spam": 0.35,
+      "pii": 0.0,
+      "off_topic": 0.1
+    },
+    "label_scores": {
+      "toxicity": 0.01,
+      "spam": 0.6,
+      "pii": 0.01,
+      "off_topic": 0.7
+    }
+  },
+  {
+    "id": "ot_h_03",
+    "text": "Not about this specific product but has anyone had luck reaching this brand's customer service lately?",
+    "difficulty": "hard",
+    "intended_category": "off_topic",
+    "category_mismatches": {
+      "off_topic": {
+        "expected": true,
+        "got": false
+      }
+    },
+    "overall_expected": true,
+    "overall_got": false,
+    "scores": {
+      "toxicity": 0.0,
+      "spam": 0.0,
+      "pii": 0.0,
+      "off_topic": 0.15
+    },
+    "label_scores": {
+      "toxicity": 0.01,
+      "spam": 0.01,
+      "pii": 0.01,
+      "off_topic": 0.8
+    }
+  }
+]

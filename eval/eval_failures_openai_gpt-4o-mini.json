@@ -1,0 +1,417 @@
+[
+  {
+    "id": "tox_h_03",
+    "text": "I hate myself right now. I'm such an idiot for falling for this again. What is wrong with me.",
+    "difficulty": "hard",
+    "intended_category": "toxicity",
+    "category_mismatches": {},
+    "overall_expected": true,
+    "overall_got": false,
+    "scores": {
+      "toxicity": 0.15,
+      "spam": 0.01,
+      "pii": 0.0,
+      "off_topic": 0.02
+    },
+    "label_scores": {
+      "toxicity": 0.6,
+      "spam": 0.01,
+      "pii": 0.01,
+      "off_topic": 0.01
+    }
+  },
+  {
+    "id": "spam_h_01",
+    "text": "Hey everyone, I just launched my indie game after two years of solo development. Would love your feedback \u2014 link in my profile. Happy to answer anything in the thread.",
+    "difficulty": "hard",
+    "intended_category": "spam",
+    "category_mismatches": {
+      "spam": {
+        "expected": false,
+        "got": true
+      }
+    },
+    "overall_expected": false,
+    "overall_got": true,
+    "scores": {
+      "toxicity": 0.0,
+      "spam": 0.8,
+      "pii": 0.0,
+      "off_topic": 0.1
+    },
+    "label_scores": {
+      "toxicity": 0.01,
+      "spam": 0.3,
+      "pii": 0.01,
+      "off_topic": 0.01
+    }
+  },
+  {
+    "id": "spam_h_04",
+    "text": "GUYS this book changed my life. Like genuinely. Everyone I've recommended it to said the same thing. Reading it again this weekend.",
+    "difficulty": "hard",
+    "intended_category": "spam",
+    "category_mismatches": {
+      "spam": {
+        "expected": true,
+        "got": false
+      }
+    },
+    "overall_expected": true,
+    "overall_got": false,
+    "scores": {
+      "toxicity": 0.0,
+      "spam": 0.0,
+      "pii": 0.0,
+      "off_topic": 0.1
+    },
+    "label_scores": {
+      "toxicity": 0.01,
+      "spam": 0.8,
+      "pii": 0.01,
+      "off_topic": 0.01
+    }
+  },
+  {
+    "id": "spam_a_01",
+    "text": "Heads up \u2014 there's a phishing scam going around claiming to be from your bank asking you to verify your account. Don't click the link, report and delete.",
+    "difficulty": "adversarial",
+    "intended_category": "spam",
+    "category_mismatches": {
+      "spam": {
+        "expected": false,
+        "got": true
+      }
+    },
+    "overall_expected": false,
+    "overall_got": true,
+    "scores": {
+      "toxicity": 0.0,
+      "spam": 0.8,
+      "pii": 0.0,
+      "off_topic": 0.0
+    },
+    "label_scores": {
+      "toxicity": 0.01,
+      "spam": 0.2,
+      "pii": 0.01,
+      "off_topic": 0.01
+    }
+  },
+  {
+    "id": "spam_a_03",
+    "text": "Got the Nigerian-prince email three times this week. The grammar honestly never gets old.",
+    "difficulty": "adversarial",
+    "intended_category": "spam",
+    "category_mismatches": {
+      "spam": {
+        "expected": false,
+        "got": true
+      }
+    },
+    "overall_expected": false,
+    "overall_got": true,
+    "scores": {
+      "toxicity": 0.0,
+      "spam": 0.9,
+      "pii": 0.0,
+      "off_topic": 0.1
+    },
+    "label_scores": {
+      "toxicity": 0.01,
+      "spam": 0.2,
+      "pii": 0.01,
+      "off_topic": 0.01
+    }
+  },
+  {
+    "id": "pii_h_01",
+    "text": "Hey, it's Mike from accounting. Give me a call back when you get a second.",
+    "difficulty": "hard",
+    "intended_category": "pii",
+    "category_mismatches": {
+      "pii": {
+        "expected": false,
+        "got": true
+      }
+    },
+    "overall_expected": false,
+    "overall_got": true,
+    "scores": {
+      "toxicity": 0.0,
+      "spam": 0.0,
+      "pii": 0.8,
+      "off_topic": 0.0
+    },
+    "label_scores": {
+      "toxicity": 0.01,
+      "spam": 0.01,
+      "pii": 0.05,
+      "off_topic": 0.01
+    }
+  },
+  {
+    "id": "pii_h_02",
+    "text": "DM me your email and I'll send the address over \u2014 don't want to post it in the public thread.",
+    "difficulty": "hard",
+    "intended_category": "pii",
+    "category_mismatches": {
+      "pii": {
+        "expected": false,
+        "got": true
+      }
+    },
+    "overall_expected": false,
+    "overall_got": true,
+    "scores": {
+      "toxicity": 0.0,
+      "spam": 0.0,
+      "pii": 0.85,
+      "off_topic": 0.0
+    },
+    "label_scores": {
+      "toxicity": 0.01,
+      "spam": 0.01,
+      "pii": 0.01,
+      "off_topic": 0.01
+    }
+  },
+  {
+    "id": "pii_a_01",
+    "text": "The order reference number is 732-55-4891 \u2014 please include it when you email support.",
+    "difficulty": "adversarial",
+    "intended_category": "pii",
+    "category_mismatches": {
+      "pii": {
+        "expected": false,
+        "got": true
+      }
+    },
+    "overall_expected": false,
+    "overall_got": true,
+    "scores": {
+      "toxicity": 0.0,
+      "spam": 0.0,
+      "pii": 0.9,
+      "off_topic": 0.0
+    },
+    "label_scores": {
+      "toxicity": 0.01,
+      "spam": 0.03,
+      "pii": 0.01,
+      "off_topic": 0.01
+    }
+  },
+  {
+    "id": "pii_a_02",
+    "text": "In the novel, the spy's cover identity was Thomas Crane, passport A0934571, residing at 221B Baker Street \u2014 a nice wink to Doyle.",
+    "difficulty": "adversarial",
+    "intended_category": "pii",
+    "category_mismatches": {
+      "pii": {
+        "expected": false,
+        "got": true
+      }
+    },
+    "overall_expected": false,
+    "overall_got": true,
+    "scores": {
+      "toxicity": 0.0,
+      "spam": 0.0,
+      "pii": 0.9,
+      "off_topic": 0.1
+    },
+    "label_scores": {
+      "toxicity": 0.01,
+      "spam": 0.03,
+      "pii": 0.01,
+      "off_topic": 0.01
+    }
+  },
+  {
+    "id": "pii_a_05",
+    "text": "The White House address is 1600 Pennsylvania Ave NW, Washington DC 20500. Everyone knows that one.",
+    "difficulty": "adversarial",
+    "intended_category": "pii",
+    "category_mismatches": {
+      "pii": {
+        "expected": false,
+        "got": true
+      }
+    },
+    "overall_expected": false,
+    "overall_got": true,
+    "scores": {
+      "toxicity": 0.0,
+      "spam": 0.0,
+      "pii": 0.9,
+      "off_topic": 0.1
+    },
+    "label_scores": {
+      "toxicity": 0.01,
+      "spam": 0.01,
+      "pii": 0.01,
+      "off_topic": 0.01
+    }
+  },
+  {
+    "id": "ot_e_01",
+    "text": "Anyone else think the Yankees are making the playoffs this year? My money's on them going all the way.",
+    "difficulty": "easy",
+    "intended_category": "off_topic",
+    "category_mismatches": {
+      "off_topic": {
+        "expected": true,
+        "got": false
+      }
+    },
+    "overall_expected": true,
+    "overall_got": false,
+    "scores": {
+      "toxicity": 0.0,
+      "spam": 0.0,
+      "pii": 0.0,
+      "off_topic": 0.1
+    },
+    "label_scores": {
+      "toxicity": 0.01,
+      "spam": 0.01,
+      "pii": 0.01,
+      "off_topic": 0.9
+    }
+  },
+  {
+    "id": "ot_e_02",
+    "text": "I'm voting for candidate X in the midterms because we need real change in this country. Who else is fired up?",
+    "difficulty": "easy",
+    "intended_category": "off_topic",
+    "category_mismatches": {
+      "off_topic": {
+        "expected": true,
+        "got": false
+      }
+    },
+    "overall_expected": true,
+    "overall_got": false,
+    "scores": {
+      "toxicity": 0.0,
+      "spam": 0.0,
+      "pii": 0.0,
+      "off_topic": 0.0
+    },
+    "label_scores": {
+      "toxicity": 0.01,
+      "spam": 0.01,
+      "pii": 0.01,
+      "off_topic": 0.9
+    }
+  },
+  {
+    "id": "ot_e_03",
+    "text": "What's everyone doing for Thanksgiving? I'm trying a new stuffing recipe this year \u2014 fingers crossed.",
+    "difficulty": "easy",
+    "intended_category": "off_topic",
+    "category_mismatches": {
+      "off_topic": {
+        "expected": true,
+        "got": false
+      }
+    },
+    "overall_expected": true,
+    "overall_got": false,
+    "scores": {
+      "toxicity": 0.0,
+      "spam": 0.0,
+      "pii": 0.0,
+      "off_topic": 0.1
+    },
+    "label_scores": {
+      "toxicity": 0.01,
+      "spam": 0.01,
+      "pii": 0.01,
+      "off_topic": 0.9
+    }
+  },
+  {
+    "id": "ot_e_04",
+    "text": "Check out my band's new single on Spotify \u2014 link in comments! Would mean a lot if you gave it a listen.",
+    "difficulty": "easy",
+    "intended_category": "off_topic",
+    "category_mismatches": {
+      "spam": {
+        "expected": false,
+        "got": true
+      },
+      "off_topic": {
+        "expected": true,
+        "got": false
+      }
+    },
+    "overall_expected": true,
+    "overall_got": true,
+    "scores": {
+      "toxicity": 0.0,
+      "spam": 0.85,
+      "pii": 0.0,
+      "off_topic": 0.1
+    },
+    "label_scores": {
+      "toxicity": 0.01,
+      "spam": 0.6,
+      "pii": 0.01,
+      "off_topic": 0.7
+    }
+  },
+  {
+    "id": "ot_h_03",
+    "text": "Not about this specific product but has anyone had luck reaching this brand's customer service lately?",
+    "difficulty": "hard",
+    "intended_category": "off_topic",
+    "category_mismatches": {
+      "off_topic": {
+        "expected": true,
+        "got": false
+      }
+    },
+    "overall_expected": true,
+    "overall_got": false,
+    "scores": {
+      "toxicity": 0.0,
+      "spam": 0.0,
+      "pii": 0.0,
+      "off_topic": 0.1
+    },
+    "label_scores": {
+      "toxicity": 0.01,
+      "spam": 0.01,
+      "pii": 0.01,
+      "off_topic": 0.8
+    }
+  },
+  {
+    "id": "ot_a_02",
+    "text": "I know this is meant for product reviews, but the founder gave a talk at my university last year and it honestly changed how I think about the brand.",
+    "difficulty": "adversarial",
+    "intended_category": "off_topic",
+    "category_mismatches": {
+      "off_topic": {
+        "expected": false,
+        "got": true
+      }
+    },
+    "overall_expected": false,
+    "overall_got": true,
+    "scores": {
+      "toxicity": 0.0,
+      "spam": 0.0,
+      "pii": 0.0,
+      "off_topic": 0.8
+    },
+    "label_scores": {
+      "toxicity": 0.01,
+      "spam": 0.01,
+      "pii": 0.01,
+      "off_topic": 0.3
+    }
+  }
+]
